@@ -22,6 +22,9 @@ class AppRadius {
 
   ///  28–32px — hero cards, identity card
   static const double xxxl = 28.0;
+    ///  32px — pie chart center space
+  static const double pieCenter = 32.0;
+
 
   /// 9999 — fully circular (avatars, FAB)
   static const double full = 9999.0;
