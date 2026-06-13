@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_expense/core/constants/app_routes.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
 import 'package:smart_expense/features/home/presentation/widgets/balance_card.dart';
@@ -45,7 +47,9 @@ class HomePage extends StatelessWidget {
             ),
             // QuickActions
             SliverToBoxAdapter(
-              child: QuickActionsRow(),
+              child: QuickActionsRow(onAddExpense: () {
+               context.push(AppRoutes.addTransaction);
+              }),
             ),
             SliverToBoxAdapter(
               child: SizedBox(height: AppSpacing.space6),

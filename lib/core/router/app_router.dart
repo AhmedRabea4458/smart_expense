@@ -1,6 +1,6 @@
 
 import 'package:go_router/go_router.dart';
-import 'package:smart_expense/features/expenses/presentation/pages/add_expense_page.dart';
+import 'package:smart_expense/features/expenses/presentation/pages/add_transaction_page.dart';
 import 'package:smart_expense/features/main_layout/presentation/pages/main_layout_page.dart';
 import 'package:smart_expense/core/constants/app_routes.dart';
 import 'package:smart_expense/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -18,7 +18,7 @@ final appRouter = GoRouter(
 
     GoRoute(
       path: AppRoutes.addTransaction,
-      builder: (context, state) => const AddExpensePage(),
+      builder: (context, state) => const AddTransactionPage(),
     ),
   ],
 );
