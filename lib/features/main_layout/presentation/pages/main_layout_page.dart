@@ -25,16 +25,15 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
   @override
   void initState() {
     super.initState();
-    // TODO: Remove after testing
-    // sl<AppDatabase>().clearTransactions();
-
     // Load data on app start
     sl<TransactionCubit>().getTransactions();
     sl<AnalyticsCubit>().loadAnalytics();
     sl<ProfileCubit>().getProfileStats();
 
     pages = [
-      const HomePage(),
+      HomePage(
+        onNavigateToTransactions: () => setState(() => currentIndex = 1),
+      ),
       const TransactionsPage(),
       const AnalyticsPage(),
       const ProfilePage(),

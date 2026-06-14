@@ -1,5 +1,4 @@
 // In analytics/data/models/chart_data.dart
-import 'dart:ui';
 
 class ChartDataPoint {
   final int monthIndex; // 0 = Jan, 1 = Feb

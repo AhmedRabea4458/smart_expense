@@ -165,6 +165,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             if (state is TransactionError) {
               _showError(state.message);
             } else if (state is TransactionLoaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('تم إضافة المعاملة بنجاح'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
               Navigator.pop(context);
             }
           },

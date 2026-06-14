@@ -1,5 +1,4 @@
 import 'package:smart_expense/core/database/app_database.dart';
-import 'package:smart_expense/core/database/tables/transactions_table.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 
 class TransactionModel  {

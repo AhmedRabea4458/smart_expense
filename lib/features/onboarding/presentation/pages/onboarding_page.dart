@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_expense/core/constants/app_routes.dart';
 import 'package:smart_expense/core/constants/app_strings.dart';
+import 'package:smart_expense/core/di/injection_container.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
 import 'package:smart_expense/core/theme/app_text_styles.dart';
@@ -26,6 +29,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
+  Future<void> _completeOnboarding() async {
+    final prefs = sl<SharedPreferences>();
+    await prefs.setBool('has_seen_onboarding', true);
+    if (mounted) {
+      context.go(AppRoutes.main);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLastPage = _currentIndex == OnboardingData.pages.length - 1;
@@ -42,7 +53,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      context.go('/main');
+                      _completeOnboarding();
                     },
                     child: const Text(AppStrings.onboardingSkip),
                   ),
@@ -115,7 +126,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 text: isLastPage ? AppStrings.onboardingStart : AppStrings.onboardingNext,
                 onPressed: () {
                   if (isLastPage) {
-                    context.go('/main');
+                    _completeOnboarding();
                   } else {
                     _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),

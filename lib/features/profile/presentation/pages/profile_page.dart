@@ -262,14 +262,27 @@ class ProfilePage extends StatelessWidget {
                         icon: Icons.download_rounded,
                         iconBackgroundColor: AppColors.primary10,
                         iconColor: AppColors.primary,
-                        label: 'تصدير البيانات (قريبًا)',
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('الميزة قيد التطوير'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                        label: 'تصدير البيانات CSV',
+                        onTap: () async {
+                          final cubit = context.read<ProfileCubit>();
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          try {
+                            await cubit.exportToCsv();
+                            scaffoldMessenger.showSnackBar(
+                              const SnackBar(
+                                content: Text('تم تصدير البيانات بنجاح'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          } catch (e) {
+                            scaffoldMessenger.showSnackBar(
+                              SnackBar(
+                                content: Text('حدث خطأ أثناء التصدير: $e'),
+                                backgroundColor: AppColors.destructive,
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
+                          }
                         },
                       ),
                       Divider(
@@ -357,6 +370,12 @@ class ProfilePage extends StatelessWidget {
                 if (amount > 0) {
                   context.read<ProfileCubit>().setBudget(amount);
                   Navigator.of(dialogContext).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('تم تحديد الميزانية بنجاح'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
                 }
               },
               style: ElevatedButton.styleFrom(

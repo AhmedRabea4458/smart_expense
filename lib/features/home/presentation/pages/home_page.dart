@@ -15,7 +15,12 @@ import 'package:smart_expense/features/home/presentation/widgets/quick_actions_r
 import 'package:smart_expense/features/home/presentation/widgets/transaction_list.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final VoidCallback? onNavigateToTransactions;
+
+  const HomePage({
+    super.key,
+    this.onNavigateToTransactions,
+  });
 
   static String _formatAmount(double amount) {
     return NumberFormat('#,##0.##', 'ar').format(amount);
@@ -143,9 +148,7 @@ class HomePage extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: TransactionList(
                     transactions: transactions,
-                    onViewAll: () {
-                      // Tab switching is handled by bottom nav
-                    },
+                    onViewAll: onNavigateToTransactions,
                     onAddTransaction: () {
                       context.push(
                         AppRoutes.addTransaction,

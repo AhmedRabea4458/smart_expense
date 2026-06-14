@@ -278,16 +278,10 @@ class _TransactionsList extends StatelessWidget {
                     onDismissed: (_) {
                       context.read<TransactionCubit>().deleteTransaction(transaction.id);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('تم حذف المعاملة'),
+                        const SnackBar(
+                          content: Text('تم حذف المعاملة'),
                           backgroundColor: AppColors.destructive,
-                          action: SnackBarAction(
-                            label: 'تراجع',
-                            textColor: Colors.white,
-                            onPressed: () {
-                              // TODO: Implement undo functionality
-                            },
-                          ),
+                          duration: Duration(seconds: 2),
                         ),
                       );
                     },

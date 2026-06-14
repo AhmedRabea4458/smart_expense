@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smart_expense/core/constants/category_colors.dart';
-import 'package:smart_expense/features/analytics/data/models/chart_model.dart';
 import 'package:smart_expense/features/analytics/domain/entities/category_breakdown.dart';
 import 'package:smart_expense/features/analytics/domain/entities/period_spending.dart';
 import 'package:smart_expense/features/analytics/domain/entities/summary_result.dart';
