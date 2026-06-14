@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_expense/core/database/app_database.dart';
 import 'package:smart_expense/core/di/injection_container.dart';
 import 'package:smart_expense/features/analytics/presentation/cubit/analytics_cubit.dart';
 import 'package:smart_expense/features/analytics/presentation/pages/analytics_page.dart';
@@ -8,6 +7,7 @@ import 'package:smart_expense/features/expenses/presentation/cubit/transaction_c
 import 'package:smart_expense/features/expenses/presentation/pages/transactions_page.dart';
 import 'package:smart_expense/features/home/presentation/pages/home_page.dart';
 import 'package:smart_expense/features/main_layout/presentation/widgets/custom_bottom_nav.dart';
+import 'package:smart_expense/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:smart_expense/features/profile/presentation/pages/profile_page.dart';
 
  class MainLayoutPage extends StatefulWidget {
@@ -28,9 +28,10 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
     // TODO: Remove after testing
     // sl<AppDatabase>().clearTransactions();
 
-    // Load transactions on app start
+    // Load data on app start
     sl<TransactionCubit>().getTransactions();
     sl<AnalyticsCubit>().loadAnalytics();
+    sl<ProfileCubit>().getProfileStats();
 
     pages = [
       const HomePage(),
@@ -46,6 +47,7 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
       providers: [
         BlocProvider.value(value: sl<TransactionCubit>()),
         BlocProvider.value(value: sl<AnalyticsCubit>()),
+        BlocProvider.value(value: sl<ProfileCubit>()),
       ],
       child: Scaffold(
         extendBody: true,

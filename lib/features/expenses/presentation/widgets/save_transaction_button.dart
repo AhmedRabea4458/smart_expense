@@ -8,11 +8,13 @@ import 'package:smart_expense/core/theme/app_text_styles.dart';
 class SaveTransactionButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
+  final bool isLoading;
 
   const SaveTransactionButton({
     super.key,
     this.label = 'حفظ المعاملة',
     this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -22,7 +24,7 @@ class SaveTransactionButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onPressed,
+          onTap: isLoading ? null : onPressed,
           borderRadius: BorderRadius.circular(AppRadius.xl),
           child: Container(
             padding: const EdgeInsets.symmetric(
@@ -40,12 +42,21 @@ class SaveTransactionButton extends StatelessWidget {
               ],
             ),
             child: Center(
-              child: Text(
-                label,
-                style: AppTextStyles.bodyLarge.copyWith(
-                  color: AppColors.primaryForeground,
-                ),
-              ),
+              child: isLoading
+                  ? SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.primaryForeground,
+                      ),
+                    )
+                  : Text(
+                      label,
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: AppColors.primaryForeground,
+                      ),
+                    ),
             ),
           ),
         ),

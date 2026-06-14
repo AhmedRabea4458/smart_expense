@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
+import 'package:smart_expense/core/theme/app_text_styles.dart';
 import 'package:smart_expense/core/utils/date_formatter.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/home/presentation/widgets/section_header.dart';
@@ -11,11 +12,13 @@ import 'package:smart_expense/shared/widgets/transaction_row.dart';
 class TransactionList extends StatelessWidget {
   final List<TransactionEntity> transactions;
   final VoidCallback? onViewAll;
+  final VoidCallback? onAddTransaction;
 
   const TransactionList({
     super.key,
     required this.transactions,
     this.onViewAll,
+    this.onAddTransaction,
   });
 
   static Map<String, dynamic> _getCategoryStyle(TransactionCategory category) {
@@ -108,11 +111,35 @@ class TransactionList extends StatelessWidget {
             child: Column(
               children: transactions.isEmpty
                   ? [
-                      const Padding(
-                        padding: EdgeInsets.all(AppSpacing.space6),
-                        child: Text(
-                          'لا توجد معاملات',
-                          style: TextStyle(color: AppColors.mutedForeground),
+                      Padding(
+                        padding: const EdgeInsets.all(AppSpacing.space6),
+                        child: Column(
+                          children: [
+                            Text(
+                              'ابدأ بإضافة معاملتك الأولى',
+                              style: AppTextStyles.body.copyWith(
+                                color: AppColors.mutedForeground,
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.space4),
+                            if (onAddTransaction != null)
+                              ElevatedButton(
+                                onPressed: onAddTransaction,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  foregroundColor: AppColors.primaryForeground,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(AppRadius.md),
+                                  ),
+                                ),
+                                child: Text(
+                                  'إضافة معاملة',
+                                  style: AppTextStyles.body.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ]

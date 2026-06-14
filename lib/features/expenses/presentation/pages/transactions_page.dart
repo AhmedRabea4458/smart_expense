@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_expense/core/constants/app_routes.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
@@ -154,15 +156,46 @@ class TransactionsPage extends StatelessWidget {
                   );
                 } else if (state is TransactionLoaded) {
                   if (state.visibleTransactions.isEmpty) {
+                    final bool isSearching = state.searchQuery.isNotEmpty;
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(AppSpacing.space8),
-                          child: Text(
-                            'لا توجد معاملات',
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.mutedForeground,
-                            ),
+                          child: Column(
+                            children: [
+                              Text(
+                                isSearching
+                                    ? 'لا توجد نتائج للبحث'
+                                    : 'لا توجد معاملات',
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.mutedForeground,
+                                ),
+                              ),
+                              if (!isSearching) ...[
+                                const SizedBox(height: AppSpacing.space4),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    context.push(
+                                      AppRoutes.addTransaction,
+                                      extra: {'isExpense': true},
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary,
+                                    foregroundColor: AppColors.primaryForeground,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(AppRadius.md),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'إضافة معاملة',
+                                    style: AppTextStyles.body.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                       ),
@@ -274,7 +307,7 @@ class _TransactionsList extends StatelessWidget {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
             ],
           );
         },

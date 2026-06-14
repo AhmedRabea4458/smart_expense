@@ -4,6 +4,7 @@ import 'package:smart_expense/features/analytics/presentation/cubit/analytics_cu
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/expenses/domain/repositories/transaction_repository.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_state.dart';
+import 'package:smart_expense/features/profile/presentation/cubit/profile_cubit.dart';
 
 class TransactionCubit extends Cubit<TransactionState> {
   final TransactionRepository repository;
@@ -20,6 +21,7 @@ class TransactionCubit extends Cubit<TransactionState> {
       await repository.addTransaction(transaction);
       await _refreshTransactions();
       await sl<AnalyticsCubit>().silentReload();
+      await sl<ProfileCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -41,6 +43,7 @@ class TransactionCubit extends Cubit<TransactionState> {
       await repository.deleteTransaction(id);
       await _refreshTransactions();
       await sl<AnalyticsCubit>().silentReload();
+      await sl<ProfileCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -52,6 +55,7 @@ class TransactionCubit extends Cubit<TransactionState> {
       await repository.updateTransaction(transaction);
       await _refreshTransactions();
       await sl<AnalyticsCubit>().silentReload();
+      await sl<ProfileCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }

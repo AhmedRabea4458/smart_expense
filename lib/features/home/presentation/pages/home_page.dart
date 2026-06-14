@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:smart_expense/core/constants/app_routes.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
+import 'package:smart_expense/core/theme/app_text_styles.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_cubit.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_state.dart';
@@ -34,6 +35,44 @@ class HomePage extends StatelessWidget {
             if (state is TransactionLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            }
+
+            if (state is TransactionError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: AppColors.destructive,
+                      size: 48,
+                    ),
+                    const SizedBox(height: AppSpacing.space4),
+                    Text(
+                      'حدث خطأ أثناء تحميل البيانات',
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.destructive,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space4),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<TransactionCubit>().getTransactions();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.primaryForeground,
+                      ),
+                      child: Text(
+                        'إعادة المحاولة',
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
 
@@ -106,6 +145,12 @@ class HomePage extends StatelessWidget {
                     transactions: transactions,
                     onViewAll: () {
                       // Tab switching is handled by bottom nav
+                    },
+                    onAddTransaction: () {
+                      context.push(
+                        AppRoutes.addTransaction,
+                        extra: {'isExpense': true},
+                      );
                     },
                   ),
                 ),

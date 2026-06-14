@@ -322,8 +322,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.screenHorizontal,
                   ),
-                  child: SaveTransactionButton(
-                    onPressed: _saveTransaction,
+                  child: BlocBuilder<TransactionCubit, TransactionState>(
+                    builder: (context, state) {
+                      return SaveTransactionButton(
+                        onPressed: _saveTransaction,
+                        isLoading: state is TransactionLoading,
+                      );
+                    },
                   ),
                 ),
               ),
