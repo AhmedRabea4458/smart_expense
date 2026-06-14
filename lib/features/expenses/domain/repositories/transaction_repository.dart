@@ -8,7 +8,7 @@ abstract class TransactionRepository {
   Future<List<TransactionEntity>> getTransactions();
 
   Future<void> deleteTransaction(
-    String id,
+    int id,
   );
 
   Future<void> updateTransaction(

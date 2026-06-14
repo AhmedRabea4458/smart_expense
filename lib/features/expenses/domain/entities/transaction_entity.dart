@@ -12,7 +12,7 @@ enum TransactionCategory {
   other,
 }
 class TransactionEntity {
-  final String id;
+  final int id;
   final String note;
   final TransactionType type;
   final double amount;

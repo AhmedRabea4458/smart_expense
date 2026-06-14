@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_expense/core/database/app_database.dart';
+import 'package:smart_expense/core/di/injection_container.dart';
 import 'package:smart_expense/features/analytics/presentation/pages/analytics_page.dart';
+import 'package:smart_expense/features/expenses/presentation/cubit/transaction_cubit.dart';
 import 'package:smart_expense/features/expenses/presentation/pages/transactions_page.dart';
 import 'package:smart_expense/features/home/presentation/pages/home_page.dart';
 import 'package:smart_expense/features/main_layout/presentation/widgets/custom_bottom_nav.dart';
@@ -20,29 +24,36 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
   @override
   void initState() {
     super.initState();
+    // TODO: Remove after testing
+    sl<AppDatabase>().clearTransactions();
 
-    pages = const [
-      HomePage(),
-      TransactionsPage(),
-      AnalyticsPage(),
-      ProfilePage(),
+    // Load transactions on app start
+    sl<TransactionCubit>().getTransactions();
+
+    pages = [
+      const HomePage(),
+      const TransactionsPage(),
+      const AnalyticsPage(),
+      const ProfilePage(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: IndexedStack(
-        index: currentIndex,
-        children: pages,
-      ),
-
-     bottomNavigationBar: SafeArea(child:
-     CustomBottomNav(
+    return BlocProvider.value(
+      value: sl<TransactionCubit>(),
+      child: Scaffold(
+        extendBody: true,
+        body: IndexedStack(
+          index: currentIndex,
+          children: pages,
+        ),
+        bottomNavigationBar: SafeArea(
+          child: CustomBottomNav(
             currentIndex: currentIndex,
             onTap: (index) => setState(() => currentIndex = index),
-          ), 
+          ),
+        ),
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
 import 'package:smart_expense/features/main_layout/presentation/widgets/custom_bottom_nav_item.dart';
 
-class CustomBottomNav extends StatelessWidget {
+class CustomBottomNav extends StatefulWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
@@ -16,6 +16,11 @@ class CustomBottomNav extends StatelessWidget {
     required this.onTap,
   });
 
+  @override
+  State<CustomBottomNav> createState() => _CustomBottomNavState();
+}
+
+class _CustomBottomNavState extends State<CustomBottomNav> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -47,54 +52,52 @@ class CustomBottomNav extends StatelessWidget {
                   Expanded(
                     child: CustomBottomNavItem(
                       icon: Icons.home_rounded,
-
                       label: 'الرئيسية',
-                      isSelected: currentIndex == 0,
-                      onTap: () => onTap(0),
+                      isSelected: widget.currentIndex == 0,
+                      onTap: () => widget.onTap(0),
                     ),
                   ),
                   Expanded(
                     child: CustomBottomNavItem(
                       icon: Icons.receipt_long_rounded,
-
                       label: 'المعاملات',
-                      isSelected: currentIndex == 1,
-                      onTap: () => onTap(1),
+                      isSelected: widget.currentIndex == 1,
+                      onTap: () => widget.onTap(1),
                     ),
                   ),
-
                   const SizedBox(width: AppSpacing.space10 * 2),
-
                   Expanded(
                     child: CustomBottomNavItem(
                       icon: Icons.bar_chart_rounded,
-
                       label: 'التحليلات',
-                      isSelected: currentIndex == 2,
-                      onTap: () => onTap(2),
+                      isSelected: widget.currentIndex == 2,
+                      onTap: () => widget.onTap(2),
                     ),
                   ),
                   Expanded(
                     child: CustomBottomNavItem(
                       icon: Icons.person_rounded,
-
                       label: 'الملف الشخصي',
-                      isSelected: currentIndex == 3,
-                      onTap: () => onTap(3),
+                      isSelected: widget.currentIndex == 3,
+                      onTap: () => widget.onTap(3),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-
           Positioned(
             top: -30,
             left: 0,
             right: 0,
             child: Center(
               child: GestureDetector(
-                onTap: () => context.push(AppRoutes.addTransaction),
+                onTap: () {
+                  context.push(
+                    AppRoutes.addTransaction,
+                    extra: {'isExpense': true},
+                  );
+                },
                 child: Container(
                   width: 68,
                   height: 68,

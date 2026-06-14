@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
-import 'package:smart_expense/core/theme/app_spacing.dart';
-import 'package:smart_expense/core/theme/app_text_styles.dart';
 import 'package:smart_expense/shared/widgets/transaction_row.dart';
 
 class TransactionCard extends StatelessWidget {
@@ -29,6 +27,12 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = name.trim().isNotEmpty
+        ? name
+        : (category.trim().isNotEmpty
+            ? category
+            : (isExpense ? 'مصروف' : 'دخل'));
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.card,
@@ -39,7 +43,7 @@ class TransactionCard extends StatelessWidget {
         ),
       ),
       child: TransactionRow(
-        name: name,
+        name: title,
         category: category,
         amount: amount,
         iconBackgroundColor: iconBackgroundColor,
