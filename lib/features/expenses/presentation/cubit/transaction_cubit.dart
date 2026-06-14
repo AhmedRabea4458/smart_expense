@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:smart_expense/core/di/injection_container.dart';
+import 'package:smart_expense/features/analytics/presentation/cubit/analytics_cubit.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/expenses/domain/repositories/transaction_repository.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_state.dart';
@@ -17,6 +19,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await repository.addTransaction(transaction);
       await _refreshTransactions();
+      await sl<AnalyticsCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -37,6 +40,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await repository.deleteTransaction(id);
       await _refreshTransactions();
+      await sl<AnalyticsCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -47,6 +51,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await repository.updateTransaction(transaction);
       await _refreshTransactions();
+      await sl<AnalyticsCubit>().silentReload();
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -79,6 +84,9 @@ class TransactionCubit extends Cubit<TransactionState> {
         return note.contains(query) || categoryName.contains(query);
       }).toList();
     }
+
+    // Sort by date descending (newest first)
+    result.sort((a, b) => b.date.compareTo(a.date));
 
     return result;
   }

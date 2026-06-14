@@ -8,23 +8,38 @@ import 'package:smart_expense/core/theme/app_text_styles.dart';
 
 class LineChartWidget extends StatelessWidget {
   final List<FlSpot> spots;
+  final List<String>? labels;
 
   const LineChartWidget({
     super.key,
     required this.spots,
+    this.labels,
   });
 
-  static const List<String> _months = [
-    'يناير',
-    'فبراير',
-    'مارس',
-    'أبريل',
-    'مايو',
-    'يونيو',
-  ];
+  List<String> get _labels =>
+      labels ??
+      const [
+        'يناير',
+        'فبراير',
+        'مارس',
+        'أبريل',
+        'مايو',
+        'يونيو',
+      ];
 
   @override
   Widget build(BuildContext context) {
+    if (spots.isEmpty) {
+      return Center(
+        child: Text(
+          'لا توجد بيانات',
+          style: AppTextStyles.body.copyWith(
+            color: AppColors.mutedForeground,
+          ),
+        ),
+      );
+    }
+
     return LineChart(
       LineChartData(
         minX: 0,
@@ -59,13 +74,13 @@ class LineChartWidget extends StatelessWidget {
               interval: 1,
               getTitlesWidget: (value, meta) {
                 final index = value.toInt();
-                if (index < 0 || index >= _months.length) {
+                if (index < 0 || index >= _labels.length) {
                   return const SizedBox.shrink();
                 }
                 return Padding(
                   padding: const EdgeInsets.only(top: AppSpacing.space2),
                   child: Text(
-                    _months[index],
+                    _labels[index],
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.mutedForeground,
                     ),

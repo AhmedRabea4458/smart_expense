@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_expense/core/database/app_database.dart';
 import 'package:smart_expense/core/di/injection_container.dart';
+import 'package:smart_expense/features/analytics/presentation/cubit/analytics_cubit.dart';
 import 'package:smart_expense/features/analytics/presentation/pages/analytics_page.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_cubit.dart';
 import 'package:smart_expense/features/expenses/presentation/pages/transactions_page.dart';
@@ -25,10 +26,11 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
   void initState() {
     super.initState();
     // TODO: Remove after testing
-    sl<AppDatabase>().clearTransactions();
+    // sl<AppDatabase>().clearTransactions();
 
     // Load transactions on app start
     sl<TransactionCubit>().getTransactions();
+    sl<AnalyticsCubit>().loadAnalytics();
 
     pages = [
       const HomePage(),
@@ -40,8 +42,11 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: sl<TransactionCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: sl<TransactionCubit>()),
+        BlocProvider.value(value: sl<AnalyticsCubit>()),
+      ],
       child: Scaffold(
         extendBody: true,
         body: IndexedStack(

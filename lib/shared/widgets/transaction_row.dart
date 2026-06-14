@@ -7,6 +7,7 @@ import 'package:smart_expense/core/theme/app_text_styles.dart';
 class TransactionRow extends StatelessWidget {
   final String name;
   final String category;
+  final String? date;
   final String amount;
   final Color iconBackgroundColor;
   final Color iconColor;
@@ -18,6 +19,7 @@ class TransactionRow extends StatelessWidget {
     super.key,
     required this.name,
     required this.category,
+    this.date,
     required this.amount,
     required this.iconBackgroundColor,
     required this.iconColor,
@@ -53,7 +55,7 @@ class TransactionRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.space3),
-            // Name + category
+            // Name + category + date
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,21 +67,41 @@ class TransactionRow extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.space1),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.space2,
-                      vertical: AppSpacing.space1,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.withAlpha(iconBackgroundColor, 0.15),
-                      borderRadius: BorderRadius.circular(AppRadius.sm),
-                    ),
-                    child: Text(
-                      category,
-                      style: AppTextStyles.caption.copyWith(
-                        color: iconColor,
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.space2,
+                          vertical: AppSpacing.space1,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.withAlpha(iconBackgroundColor, 0.15),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                        ),
+                        child: Text(
+                          category,
+                          style: AppTextStyles.caption.copyWith(
+                            color: iconColor,
+                          ),
+                        ),
                       ),
-                    ),
+                      if (date != null) ...[
+                        const SizedBox(width: AppSpacing.space2),
+                        Text(
+                          '•',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.mutedForeground,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.space2),
+                        Text(
+                          date!,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.mutedForeground,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),

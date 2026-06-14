@@ -6,6 +6,7 @@ import 'package:smart_expense/shared/widgets/transaction_row.dart';
 class TransactionCard extends StatelessWidget {
   final String name;
   final String category;
+  final String? date;
   final String amount;
   final Color iconBackgroundColor;
   final Color iconColor;
@@ -17,6 +18,7 @@ class TransactionCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.category,
+    this.date,
     required this.amount,
     required this.iconBackgroundColor,
     required this.iconColor,
@@ -45,6 +47,7 @@ class TransactionCard extends StatelessWidget {
       child: TransactionRow(
         name: title,
         category: category,
+        date: date,
         amount: amount,
         iconBackgroundColor: iconBackgroundColor,
         iconColor: iconColor,

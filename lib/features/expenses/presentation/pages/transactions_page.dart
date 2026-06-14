@@ -4,6 +4,7 @@ import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
 import 'package:smart_expense/core/theme/app_text_styles.dart';
+import 'package:smart_expense/core/utils/date_formatter.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_cubit.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_state.dart';
@@ -194,67 +195,101 @@ class _TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Group transactions by date
+    final grouped = _groupByDate(transactions);
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          final transaction = transactions[index];
-          final categoryInfo = _getCategoryInfo(transaction.category);
-          
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.screenHorizontal,
-              vertical: AppSpacing.space1,
-            ),
-            child: Dismissible(
-              key: Key('transaction_${transaction.id}'),
-              direction: DismissDirection.endToStart,
-              background: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.destructive,
-                  borderRadius: BorderRadius.circular(AppRadius.lg),
+          final group = grouped[index];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Date group header
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenHorizontal,
+                  vertical: AppSpacing.space3,
                 ),
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: AppSpacing.space5),
-                child: const Icon(
-                  Icons.delete_rounded,
-                  color: Colors.white,
+                child: Text(
+                  group.dateLabel,
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.mutedForeground,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-              onDismissed: (_) {
-                context.read<TransactionCubit>().deleteTransaction(transaction.id);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('تم حذف المعاملة'),
-                    backgroundColor: AppColors.destructive,
-                    action: SnackBarAction(
-                      label: 'تراجع',
-                      textColor: Colors.white,
-                      onPressed: () {
-                        // TODO: Implement undo functionality
-                      },
+              // Transactions in this group
+              ...group.transactions.map((transaction) {
+                final categoryInfo = _getCategoryInfo(transaction.category);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenHorizontal,
+                    vertical: AppSpacing.space1,
+                  ),
+                  child: Dismissible(
+                    key: Key('transaction_${transaction.id}'),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.destructive,
+                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                      ),
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: AppSpacing.space5),
+                      child: const Icon(
+                        Icons.delete_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onDismissed: (_) {
+                      context.read<TransactionCubit>().deleteTransaction(transaction.id);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('تم حذف المعاملة'),
+                          backgroundColor: AppColors.destructive,
+                          action: SnackBarAction(
+                            label: 'تراجع',
+                            textColor: Colors.white,
+                            onPressed: () {
+                              // TODO: Implement undo functionality
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    child: TransactionCard(
+                      name: transaction.note,
+                      category: categoryInfo.label,
+                      date: DateFormatter.formatTransactionDate(transaction.date),
+                      amount: '${transaction.amount.toStringAsFixed(0)} ج.م',
+                      iconBackgroundColor: AppColors.withAlpha(
+                        categoryInfo.color,
+                        0.15,
+                      ),
+                      iconColor: categoryInfo.color,
+                      icon: categoryInfo.icon,
+                      isExpense: transaction.type == TransactionType.expense,
+                      onTap: () {},
                     ),
                   ),
                 );
-              },
-              child: TransactionCard(
-                name: transaction.note,
-                category: categoryInfo.label,
-                amount: '${transaction.amount.toStringAsFixed(0)} ج.م',
-                iconBackgroundColor: AppColors.withAlpha(
-                  categoryInfo.color,
-                  0.15,
-                ),
-                iconColor: categoryInfo.color,
-                icon: categoryInfo.icon,
-                isExpense: transaction.type == TransactionType.expense,
-                onTap: () {},
-              ),
-            ),
+              }).toList(),
+            ],
           );
         },
-        childCount: transactions.length,
+        childCount: grouped.length,
       ),
     );
+  }
+
+  List<_TransactionGroup> _groupByDate(List<TransactionEntity> transactions) {
+    final Map<String, List<TransactionEntity>> map = {};
+    for (final t in transactions) {
+      final key = DateFormatter.groupKey(t.date);
+      map.putIfAbsent(key, () => []).add(t);
+    }
+    return map.entries.map((e) => _TransactionGroup(e.key, e.value)).toList();
   }
 
   _CategoryInfo _getCategoryInfo(TransactionCategory category) {
@@ -303,6 +338,13 @@ class _TransactionsList extends StatelessWidget {
         );
     }
   }
+}
+
+class _TransactionGroup {
+  final String dateLabel;
+  final List<TransactionEntity> transactions;
+
+  _TransactionGroup(this.dateLabel, this.transactions);
 }
 
 class _CategoryInfo {

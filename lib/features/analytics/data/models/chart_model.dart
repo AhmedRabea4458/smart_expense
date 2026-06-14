@@ -13,16 +13,4 @@ class ChartDataPoint {
   });
 }
 
-class CategoryBreakdown {
-  final String name;
-  final double value;
-  final Color color;
-  final double percentage;
 
-  const CategoryBreakdown({
-    required this.name,
-    required this.value,
-    required this.color,
-    required this.percentage,
-  });
-}

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
+import 'package:smart_expense/core/utils/date_formatter.dart';
 import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 import 'package:smart_expense/features/home/presentation/widgets/section_header.dart';
 import 'package:smart_expense/shared/widgets/transaction_row.dart';
@@ -129,6 +130,7 @@ class TransactionList extends StatelessWidget {
                           TransactionRow(
                             name: title,
                             category: categoryName,
+                            date: DateFormatter.formatTransactionDate(transaction.date),
                             amount: _formatAmount(transaction.amount),
                             iconBackgroundColor: AppColors.withAlpha(
                               style['color'] as Color,

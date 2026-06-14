@@ -8,6 +8,7 @@ import 'package:smart_expense/features/analytics/presentation/widgets/line_chart
 
 class LineChartCard extends StatelessWidget {
   final List<FlSpot> spots;
+  final List<String>? labels;
   final String totalAmount;
   final String comparisonLabel;
   final String comparisonPercentage;
@@ -16,6 +17,7 @@ class LineChartCard extends StatelessWidget {
   const LineChartCard({
     super.key,
     required this.spots,
+    this.labels,
     required this.totalAmount,
     this.comparisonLabel = 'مقارنة بالشهر الماضي',
     this.comparisonPercentage = '٨.٥',
@@ -70,37 +72,51 @@ class LineChartCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.space6),
           // Chart
-          SizedBox(
-            height: 210,
-            child: LineChartWidget(spots: spots),
-          ),
+          if (spots.length < 2)
+            SizedBox(
+              height: 210,
+              child: Center(
+                child: Text(
+                  'أضف معاملات أكثر لرؤية الاتجاه',
+                  style: AppTextStyles.body.copyWith(
+                    color: AppColors.mutedForeground,
+                  ),
+                ),
+              ),
+            )
+          else
+            SizedBox(
+              height: 210,
+              child: LineChartWidget(spots: spots, labels: labels),
+            ),
           const SizedBox(height: AppSpacing.space4),
           // Comparison indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isIncrease ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                size: 14,
-                color: isIncrease ? AppColors.destructive : AppColors.success,
-              ),
-              const SizedBox(width: AppSpacing.space1),
-              Text(
-                comparisonPercentage,
-                style: AppTextStyles.caption.copyWith(
+          if (spots.length >= 2)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  isIncrease ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
+                  size: 14,
                   color: isIncrease ? AppColors.destructive : AppColors.success,
-                  fontWeight: FontWeight.w700,
                 ),
-              ),
-              const SizedBox(width: AppSpacing.space2),
-              Text(
-                comparisonLabel,
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.mutedForeground,
+                const SizedBox(width: AppSpacing.space1),
+                Text(
+                  comparisonPercentage,
+                  style: AppTextStyles.caption.copyWith(
+                    color: isIncrease ? AppColors.destructive : AppColors.success,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(width: AppSpacing.space2),
+                Text(
+                  comparisonLabel,
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.mutedForeground,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
