@@ -8,12 +8,21 @@ import 'package:smart_expense/features/expenses/domain/entities/transaction_enti
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_cubit.dart';
 import 'package:smart_expense/features/expenses/presentation/cubit/transaction_state.dart';
 import 'package:smart_expense/features/expenses/presentation/widgets/transaction_card.dart';
-import 'package:smart_expense/features/expenses/presentation/widgets/transaction_group_header.dart';
 import 'package:smart_expense/shared/widgets/filter_chip_widget.dart';
-import 'package:smart_expense/shared/widgets/search_bar.dart' hide SearchBar;
+import 'package:smart_expense/shared/widgets/search_bar.dart' as app_search;
 
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage({super.key});
+
+  static final _filterChips = [
+    {'label': 'الكل', 'category': null},
+    {'label': 'طعام', 'category': TransactionCategory.food},
+    {'label': 'مواصلات', 'category': TransactionCategory.transport},
+    {'label': 'فواتير', 'category': TransactionCategory.bills},
+    {'label': 'ترفيه', 'category': TransactionCategory.entertainment},
+    {'label': 'تسوق', 'category': TransactionCategory.shopping},
+    {'label': 'أخرى', 'category': TransactionCategory.other},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +71,11 @@ class TransactionsPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.screenHorizontal,
                 ),
-                child: SearchBar(
+                child: app_search.SearchBar(
                   hintText: 'البحث في المعاملات...',
+                  onChanged: (query) {
+                    context.read<TransactionCubit>().search(query);
+                  },
                 ),
               ),
             ),
@@ -76,25 +88,35 @@ class TransactionsPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.screenHorizontal,
                 ),
-                child: Row(
-                  children: [
-                    FilterChipWidget(
-                      label: 'الكل',
-                      isActive: true,
-                    ),
-                    SizedBox(width: AppSpacing.space2),
-                    FilterChipWidget(
-                      label: 'طعام',
-                    ),
-                    SizedBox(width: AppSpacing.space2),
-                    FilterChipWidget(
-                      label: 'مواصلات',
-                    ),
-                    SizedBox(width: AppSpacing.space2),
-                    FilterChipWidget(
-                      label: 'فواتير',
-                    ),
-                  ],
+                child: BlocBuilder<TransactionCubit, TransactionState>(
+                  buildWhen: (previous, current) =>
+                    current is TransactionLoaded,
+                  builder: (context, state) {
+                    final selectedCategory = state is TransactionLoaded
+                        ? state.selectedCategory
+                        : null;
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: _filterChips.map((chip) {
+                          final category = chip['category'] as TransactionCategory?;
+                          final isActive = category == selectedCategory;
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              right: AppSpacing.space2,
+                            ),
+                            child: FilterChipWidget(
+                              label: chip['label'] as String,
+                              isActive: isActive,
+                              onTap: () {
+                                context.read<TransactionCubit>().filterByCategory(category);
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -130,7 +152,7 @@ class TransactionsPage extends StatelessWidget {
                     ),
                   );
                 } else if (state is TransactionLoaded) {
-                  if (state.transactions.isEmpty) {
+                  if (state.visibleTransactions.isEmpty) {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
@@ -145,7 +167,9 @@ class TransactionsPage extends StatelessWidget {
                       ),
                     );
                   }
-                  return _TransactionsList(transactions: state.transactions);
+                  return _TransactionsList(
+                    transactions: state.visibleTransactions,
+                  );
                 }
                 return const SliverToBoxAdapter(
                   child: SizedBox.shrink(),

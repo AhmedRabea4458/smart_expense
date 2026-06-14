@@ -7,9 +7,17 @@ class TransactionInitial extends TransactionState {}
 class TransactionLoading extends TransactionState {}
 
 class TransactionLoaded extends TransactionState {
-  final List<TransactionEntity> transactions;
+  final List<TransactionEntity> allTransactions;
+  final List<TransactionEntity> visibleTransactions;
+  final String searchQuery;
+  final TransactionCategory? selectedCategory;
 
-  TransactionLoaded(this.transactions);
+  TransactionLoaded({
+    required this.allTransactions,
+    required this.visibleTransactions,
+    this.searchQuery = '',
+    this.selectedCategory,
+  });
 }
 
 class TransactionError extends TransactionState {

@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             double expenses = 0;
 
             if (state is TransactionLoaded) {
-              transactions = state.transactions;
+              transactions = state.allTransactions;
               income = transactions
                   .where((t) => t.type == TransactionType.income)
                   .fold(0.0, (sum, t) => sum + t.amount);
