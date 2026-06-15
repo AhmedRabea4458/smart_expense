@@ -105,9 +105,7 @@ class HomePage extends StatelessWidget {
                 // HomeHeader
                 SliverToBoxAdapter(
                   child: HomeHeader(
-                    userName: 'أحمد',
                     date: monthName,
-                    initials: 'أم',
                   ),
                 ),
                 SliverToBoxAdapter(

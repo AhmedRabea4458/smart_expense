@@ -54,8 +54,6 @@ class ProfilePage extends StatelessWidget {
                 builder: (context, state) {
                     if (state is ProfileLoading) {
                       return const ProfileCard(
-                        name: 'مستخدم التطبيق',
-                        initials: 'أم',
                         stats: [
                           StatItem(label: 'معاملة', value: '...'),
                           StatItem(label: 'هذا الشهر', value: '...'),
@@ -64,8 +62,6 @@ class ProfilePage extends StatelessWidget {
                       );
                     } else if (state is ProfileLoaded) {
                       return ProfileCard(
-                        name: 'مستخدم التطبيق',
-                        initials: 'أم',
                         stats: [
                           StatItem(
                             label: 'معاملة',
@@ -85,8 +81,6 @@ class ProfilePage extends StatelessWidget {
                       return Column(
                         children: [
                           const ProfileCard(
-                            name: 'مستخدم التطبيق',
-                            initials: 'أم',
                             stats: [
                               StatItem(label: 'معاملة', value: '-'),
                               StatItem(label: 'هذا الشهر', value: '-'),
@@ -131,8 +125,6 @@ class ProfilePage extends StatelessWidget {
                       );
                     }
                     return const ProfileCard(
-                      name: 'مستخدم التطبيق',
-                      initials: 'أم',
                       stats: [
                         StatItem(label: 'معاملة', value: '-'),
                         StatItem(label: 'هذا الشهر', value: '-'),
@@ -440,7 +432,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.space4),
                 Text(
-                  'Developed by Ahmed',
+                  'Smart Expense Team',
                   style: AppTextStyles.body.copyWith(
                     color: AppColors.foreground,
                   ),

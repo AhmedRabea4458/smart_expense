@@ -5,11 +5,12 @@ import 'core/di/injection_container.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

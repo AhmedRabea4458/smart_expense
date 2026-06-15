@@ -6,14 +6,10 @@ import 'package:smart_expense/core/theme/app_text_styles.dart';
 import 'package:smart_expense/shared/widgets/stats_row.dart';
 
 class ProfileCard extends StatelessWidget {
-  final String name;
-  final String initials;
   final List<StatItem> stats;
 
   const ProfileCard({
     super.key,
-    required this.name,
-    required this.initials,
     required this.stats,
   });
 
@@ -30,7 +26,7 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Avatar + Info
+          // Icon + Title
           Row(
             children: [
               Container(
@@ -43,12 +39,11 @@ class ProfileCard extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
-                child: Center(
-                  child: Text(
-                    initials,
-                    style: AppTextStyles.title.copyWith(
-                      color: AppColors.primaryForeground,
-                    ),
+                child: const Center(
+                  child: Icon(
+                    Icons.account_balance_wallet,
+                    color: AppColors.primaryForeground,
+                    size: 28,
                   ),
                 ),
               ),
@@ -58,14 +53,14 @@ class ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      'إحصائياتك المالية',
                       style: AppTextStyles.headline.copyWith(
                         color: AppColors.primaryForeground,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space1),
                     Text(
-                      "ادارة المصروفات الشخصية",
+                      'ملخص نشاطك داخل التطبيق',
                       style: AppTextStyles.body.copyWith(
                         color: AppColors.withAlpha(
                           AppColors.primaryForeground,
