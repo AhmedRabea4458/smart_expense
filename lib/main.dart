@@ -9,9 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
 
-  WidgetsFlutterBinding.ensureInitialized();
-  final  sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.clear();  
+
   await init();
   runApp(
     DevicePreview(
