@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_expense/core/constants/category_colors.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
 import 'package:smart_expense/core/theme/app_text_styles.dart';
@@ -16,13 +17,13 @@ class CategoryGrid extends StatelessWidget {
   });
 
   final List<Map<String, dynamic>> _categories = const [
-    {'name': 'طعام', 'icon': Icons.restaurant_rounded, 'color': Color(0xFF9C27B0)},
-    {'name': 'مواصلات', 'icon': Icons.directions_car_rounded, 'color': Color(0xFF2196F3)},
-    {'name': 'فواتير', 'icon': Icons.receipt_long_rounded, 'color': Color(0xFF4CAF50)},
-    {'name': 'ترفيه', 'icon': Icons.movie_rounded, 'color': Color(0xFFFF9800)},
-    {'name': 'صحة', 'icon': Icons.favorite_rounded, 'color': Color(0xFFF44336)},
-    {'name': 'تسوق', 'icon': Icons.shopping_bag_rounded, 'color': Color(0xFF00BCD4)},
-    {'name': 'أخرى', 'icon': Icons.more_horiz_rounded, 'color': Color(0xFF607D8B)},
+    {'name': 'طعام', 'icon': Icons.restaurant_rounded, 'color': CategoryColors.food},
+    {'name': 'مواصلات', 'icon': Icons.directions_car_rounded, 'color': CategoryColors.transport},
+    {'name': 'فواتير', 'icon': Icons.receipt_long_rounded, 'color': CategoryColors.bills},
+    {'name': 'ترفيه', 'icon': Icons.movie_rounded, 'color': CategoryColors.entertainment},
+    {'name': 'صحة', 'icon': Icons.favorite_rounded, 'color': CategoryColors.health},
+    {'name': 'تسوق', 'icon': Icons.shopping_bag_rounded, 'color': CategoryColors.shopping},
+    {'name': 'أخرى', 'icon': Icons.more_horiz_rounded, 'color': CategoryColors.other},
   ];
 
   @override

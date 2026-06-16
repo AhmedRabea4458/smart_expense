@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_expense/core/constants/app_routes.dart';
+import 'package:smart_expense/core/constants/category_colors.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
@@ -325,43 +326,43 @@ class _TransactionsList extends StatelessWidget {
         return _CategoryInfo(
           label: 'طعام',
           icon: Icons.restaurant_rounded,
-          color: AppColors.primary,
+          color: CategoryColors.food,
         );
       case TransactionCategory.transport:
         return _CategoryInfo(
           label: 'مواصلات',
           icon: Icons.directions_car_rounded,
-          color: const Color(0xFF2196F3),
+          color: CategoryColors.transport,
         );
       case TransactionCategory.bills:
         return _CategoryInfo(
           label: 'فواتير',
           icon: Icons.receipt_long_rounded,
-          color: AppColors.success,
+          color: CategoryColors.bills,
         );
       case TransactionCategory.entertainment:
         return _CategoryInfo(
           label: 'ترفيه',
           icon: Icons.movie_rounded,
-          color: AppColors.warning,
+          color: CategoryColors.entertainment,
         );
       case TransactionCategory.shopping:
         return _CategoryInfo(
           label: 'تسوق',
           icon: Icons.shopping_bag_rounded,
-          color: const Color(0xFF00BCD4),
+          color: CategoryColors.shopping,
         );
       case TransactionCategory.salary:
         return _CategoryInfo(
           label: 'راتب',
           icon: Icons.attach_money_rounded,
-          color: AppColors.success,
+          color: CategoryColors.salary,
         );
       case TransactionCategory.other:
         return _CategoryInfo(
           label: 'أخرى',
           icon: Icons.more_horiz_rounded,
-          color: AppColors.mutedForeground,
+          color: CategoryColors.other,
         );
     }
   }

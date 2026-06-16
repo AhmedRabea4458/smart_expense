@@ -1,16 +1,18 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'core/di/injection_container.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  final  sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.clear();  
   await init();
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -26,8 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
 return MaterialApp.router(
-  title: 'Smart Expense',
-  theme: AppTheme.dark,
+  title: 'Wallety',
+  theme: AppTheme.lightTheme,
   routerConfig: appRouter,
   debugShowCheckedModeBanner: false,
 

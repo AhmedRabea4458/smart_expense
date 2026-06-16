@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_expense/core/constants/category_colors.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
 import 'package:smart_expense/core/theme/app_radius.dart';
 import 'package:smart_expense/core/theme/app_spacing.dart';
@@ -26,37 +27,37 @@ class TransactionList extends StatelessWidget {
       case TransactionCategory.food:
         return {
           'icon': Icons.restaurant_rounded,
-          'color': const Color(0xFF9C27B0),
+          'color': CategoryColors.food,
         };
       case TransactionCategory.transport:
         return {
           'icon': Icons.directions_car_rounded,
-          'color': const Color(0xFF2196F3),
+          'color': CategoryColors.transport,
         };
       case TransactionCategory.bills:
         return {
           'icon': Icons.receipt_long_rounded,
-          'color': const Color(0xFF4CAF50),
+          'color': CategoryColors.bills,
         };
       case TransactionCategory.entertainment:
         return {
           'icon': Icons.movie_rounded,
-          'color': const Color(0xFFFF9800),
+          'color': CategoryColors.entertainment,
         };
       case TransactionCategory.shopping:
         return {
           'icon': Icons.shopping_bag_rounded,
-          'color': const Color(0xFF00BCD4),
+          'color': CategoryColors.shopping,
         };
       case TransactionCategory.salary:
         return {
           'icon': Icons.account_balance_wallet_rounded,
-          'color': const Color(0xFF4CAF50),
+          'color': CategoryColors.salary,
         };
       case TransactionCategory.other:
         return {
           'icon': Icons.more_horiz_rounded,
-          'color': const Color(0xFF607D8B),
+          'color': CategoryColors.other,
         };
     }
   }

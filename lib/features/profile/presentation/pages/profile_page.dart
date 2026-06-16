@@ -400,7 +400,7 @@ class ProfilePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
           title: Text(
-            'Smart Expense',
+            'Wallety',
             style: AppTextStyles.headline.copyWith(
               color: AppColors.foreground,
             ),
@@ -432,7 +432,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.space4),
                 Text(
-                  'Smart Expense Team',
+                  'Wallety Team',
                   style: AppTextStyles.body.copyWith(
                     color: AppColors.foreground,
                   ),

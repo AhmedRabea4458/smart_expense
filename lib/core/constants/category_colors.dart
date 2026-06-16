@@ -1,39 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:smart_expense/core/theme/app_colors.dart';
+import 'package:smart_expense/features/expenses/domain/entities/transaction_entity.dart';
 
 class CategoryColors {
+  // ── Brand-Aligned Category Palette ──
+  static const Color food = Color(0xFF8B5CF6);        // violet 500
+  static const Color transport = Color(0xFF3B82F6);   // blue 500
+  static const Color bills = Color(0xFFF59E0B);       // amber 500 (warning)
+  static const Color entertainment = Color(0xFFF97316); // orange 500
+  static const Color shopping = AppColors.primary;      // cyan 500
+  static const Color salary = AppColors.success;        // green 500
+  static const Color other = AppColors.mutedForeground; // slate 500
+  static const Color health = AppColors.destructive;    // red 500
+
   static Color getColor(String category) {
     switch (category) {
       case 'طعام':
       case 'food':
-        return AppColors.primary;
-
+        return food;
       case 'مواصلات':
       case 'transport':
-        return const Color(0xFF2196F3);
-
+        return transport;
       case 'فواتير':
       case 'bills':
-        return AppColors.warning;
-
+        return bills;
       case 'تسوق':
       case 'shopping':
-        return AppColors.success;
-
+        return shopping;
       case 'ترفيه':
       case 'entertainment':
-        return const Color(0xFFFF9800);
-
+        return entertainment;
       case 'راتب':
       case 'salary':
-        return const Color(0xFF4CAF50);
-
+        return salary;
       case 'أخرى':
       case 'other':
-        return const Color(0xFF9C27B0);
-
+        return other;
       default:
         return Colors.grey;
+    }
+  }
+
+  static Color getColorForEnum(TransactionCategory category) {
+    switch (category) {
+      case TransactionCategory.food:
+        return food;
+      case TransactionCategory.transport:
+        return transport;
+      case TransactionCategory.bills:
+        return bills;
+      case TransactionCategory.entertainment:
+        return entertainment;
+      case TransactionCategory.shopping:
+        return shopping;
+      case TransactionCategory.salary:
+        return salary;
+      case TransactionCategory.other:
+        return other;
     }
   }
 

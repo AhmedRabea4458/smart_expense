@@ -116,9 +116,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.dark(
+            colorScheme: ColorScheme.light(
               primary: AppColors.primary,
-              surface: AppColors.card,
+              surface: AppColors.surface,
               onSurface: AppColors.foreground,
             ),
           ),
